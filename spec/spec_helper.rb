@@ -27,7 +27,7 @@ module AdapterGuards
   end
 
   def adapter_name
-    name = if defined?(DataObjects::SQLite3)
+    name = if defined?(DataObjects::Sqlite3)
       'sqlite3'
     elsif defined?(DataObjects::Postgres)
       'postgresql'

@@ -48,7 +48,11 @@ module Arel
       end
 
       def quote_table_name(name) #:nodoc:
-        "\"#{name[0, self.class::IDENTIFIER_MAX_LENGTH].gsub('"', '""')}\""
+        if defined?(DataObjects::Mysql)
+          "`#{name[0, self.class::IDENTIFIER_MAX_LENGTH].gsub('`', '``')}`"
+        else
+          "\"#{name[0, self.class::IDENTIFIER_MAX_LENGTH].gsub('"', '""')}\""
+        end
       end
 
       def quote_column_name(name)
