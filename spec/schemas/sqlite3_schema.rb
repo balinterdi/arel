@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/blank'
+
 sql = <<-SQL
   DROP TABLE IF EXISTS users;
   CREATE TABLE users (
@@ -21,5 +23,5 @@ sql = <<-SQL
 SQL
 
 sql.split(/;/).select(&:present?).each do |sql_statement|
-  ActiveRecord::Base.connection.execute sql_statement
+  @@conn.create_command(sql_statement).execute_non_query
 end

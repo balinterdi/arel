@@ -1,18 +1,13 @@
 puts "Using native SQLite3"
-require "active_record"
-require 'logger'
+$LOAD_PATH << '../do/data_objects/lib'
+$LOAD_PATH << '../do/do_sqlite3/lib'
+require 'data_objects'
+require 'do_sqlite3'
 
-ActiveRecord::Base.logger = Logger.new("debug.log")
+DataObjects::Sqlite3.logger = DataObjects::Logger.new('debug.log', :debug)
+at_exit { DataObjects.logger.flush }
 
 db_file = "spec/fixtures/fixture_database.sqlite3"
-
-ActiveRecord::Base.configurations = {
-  "unit" => {
-    :adapter  => 'sqlite3',
-    :database => db_file,
-    :timeout  => 5000
-  }
-}
 
 unless File.exist?(db_file)
   puts "SQLite3 database not found at #{db_file}. Rebuilding it."
@@ -23,4 +18,4 @@ unless File.exist?(db_file)
   raise "Seems that there is no sqlite3 executable available" unless system(sqlite_command)
 end
 
-ActiveRecord::Base.establish_connection("unit")
+@@conn = DataObjects::Connection.new("sqlite3://#{File.expand_path(db_file)}")

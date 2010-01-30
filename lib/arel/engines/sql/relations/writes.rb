@@ -76,7 +76,7 @@ module Arel
             quote_primary_key = engine.quote_column_name("id")
           end
 
-          conditions =  "WHERE #{quote_primary_key} IN (SELECT #{quote_primary_key} FROM #{engine.connection.quote_table_name table.name} #{conditions})"
+          conditions =  "WHERE #{quote_primary_key} IN (SELECT #{quote_primary_key} FROM #{engine.quote_table_name table.name} #{conditions})"
         end
       end
 

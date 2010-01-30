@@ -1,7 +1,6 @@
 module GemHelpers
 
   def generate_gemspec
-    $LOAD_PATH << "#{File.dirname(__FILE__)}/vendor/rails/activerecord/lib"
     $LOAD_PATH << "#{File.dirname(__FILE__)}/vendor/rails/activesupport/lib"
 
     $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), "lib")))
@@ -32,10 +31,6 @@ and query generation.
       s.has_rdoc = true
       s.extra_rdoc_files = %w[History.txt README.markdown]
 
-      # Arel required ActiveRecord, but we're not declaring it to avoid a
-      # circular dependency chain. The solution is for ActiveRecord to release
-      # the connection adapters which Arel uses in a separate gem
-      # s.add_dependency "activerecord", ">= 3.0.pre"
       s.add_dependency "activesupport", ">= 3.0.pre"
     end
   end

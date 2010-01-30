@@ -11,6 +11,10 @@ require 'arel'
   Dir["#{dir}/#{helper}/*"].each { |m| require "#{dir}/#{helper}/#{File.basename(m)}" }
 end
 
+# temporary move them here
+#require 'connections/sqlite3_connection'
+#require 'schemas/sqlite3_schema'
+
 module AdapterGuards
   def adapter_is(name)
     verify_adapter_name(name)
@@ -23,7 +27,13 @@ module AdapterGuards
   end
 
   def adapter_name
-    name = ActiveRecord::Base.configurations["unit"][:adapter]
+    name = if defined?(DataObjects::SQLite3)
+      'sqlite3'
+    elsif defined?(DataObjects::Postgres)
+      'postgresql'
+    else
+      'mysql'
+    end
     verify_adapter_name(name)
     name
   end
@@ -50,6 +60,6 @@ Spec::Runner.configure do |config|
   config.include Check
 
   config.before do
-    Arel::Table.engine = Arel::Sql::Engine.new(ActiveRecord::Base)
+    Arel::Table.engine = Arel::Sql::Engine.new(@@conn)
   end
 end

@@ -1,15 +1,10 @@
 puts "Using native PostgreSQL"
-require "active_record"
-require 'logger'
+$LOAD_PATH << '../do/data_objects/lib'
+$LOAD_PATH << '../do/do_postgres/lib'
+require 'data_objects'
+require 'do_postgres'
 
-ActiveRecord::Base.logger = Logger.new("debug.log")
+DataObjects::Postgres.logger = DataObjects::Logger.new('debug.log', :debug)
+at_exit { DataObjects.logger.flush }
 
-ActiveRecord::Base.configurations = {
-  'unit' => {
-    :adapter  => 'postgresql',
-    :encoding => 'utf8',
-    :database => 'arel_unit',
-  }
-}
-
-ActiveRecord::Base.establish_connection 'unit'
+@@conn = DataObjects::Connection.new("postgres://postgres@localhost/arel_unit?encoding=utf8")

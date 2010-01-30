@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/metaclass'
+
 module Arel
   class Session
     class << self

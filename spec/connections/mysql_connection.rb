@@ -1,16 +1,10 @@
 puts "Using native MySQL"
-require "active_record"
-require 'logger'
+$LOAD_PATH << '../do/data_objects/lib'
+$LOAD_PATH << '../do/do_mysql/lib'
+require 'data_objects'
+require 'do_mysql'
 
-ActiveRecord::Base.logger = Logger.new("debug.log")
+DataObjects::Mysql.logger = DataObjects::Logger.new('debug.log', :debug)
+at_exit { DataObjects.logger.flush }
 
-ActiveRecord::Base.configurations = {
-  'unit' => {
-    :adapter  => 'mysql',
-    :username => 'root',
-    :encoding => 'utf8',
-    :database => 'arel_unit',
-  }
-}
-
-ActiveRecord::Base.establish_connection 'unit'
+@@conn = DataObjects::Connection.new("mysql://localhost/arel_unit?encoding=utf8")
