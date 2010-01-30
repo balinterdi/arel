@@ -22,8 +22,8 @@ module Arel
           .project(@users[:name], @photos[:camera_id]) \
         .let do |relation|
           relation.call.should == [
-            Row.new(relation, ['bryan', '6']),
-            Row.new(relation, ['emilio', '42'])
+            Row.new(relation, ['bryan', 6]),
+            Row.new(relation, ['emilio', 42])
           ]
         end
       end
@@ -37,8 +37,8 @@ module Arel
           .project(@users[:name], @photos[:camera_id]) \
         .let do |relation|
           relation.call.should == [
-            Row.new(relation, ['bryan', '6']),
-            Row.new(relation, ['emilio', '42'])
+            Row.new(relation, ['bryan', 6]),
+            Row.new(relation, ['emilio', 42])
           ]
         end
       end
