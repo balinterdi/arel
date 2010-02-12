@@ -27,7 +27,6 @@ module Arel
       # NOTE: Obviously, this should be implemented upstream! This is quick and
       #       dirty implementation to get things working.
       def columns(table_name, name = nil)#:nodoc:
-        columns = []
         if defined?(DataObjects::Sqlite3)
           column_name, columns_sql = 'name', "PRAGMA table_info(#{table_name})"
         elsif defined?(DataObjects::Postgres)
@@ -43,8 +42,7 @@ module Arel
           column_name, columns_sql = 'Field', "SHOW FIELDS FROM #{quote_table_name(table_name)}"
         end
         reader = @connection.create_command(columns_sql).execute_reader
-        reader.each { |r| columns << Column.new(r[column_name]) }
-        columns
+        reader.map { |r| Column.new(r[column_name]) }
       end
 
       def quote_table_name(name) #:nodoc:
