@@ -6,6 +6,11 @@ module Arel
       before do
         @relation = Arel::Table.new(:users)
         @attribute = @relation[:id]
+
+        column = @attribute.column
+        def column.type_cast(value)
+          value.to_i
+        end
       end
 
       describe '#to_sql' do

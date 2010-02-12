@@ -13,6 +13,11 @@ module Arel
         @relation = Arel::Table.new(:users)
         @attribute1 = @relation[:id]
         @attribute2 = @relation[:name]
+
+        column1 = @attribute1.column
+        def column1.type_cast(value)
+          value.to_i
+        end
       end
 
       describe "with compound predicates" do

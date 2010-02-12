@@ -10,6 +10,11 @@ module Arel
   describe Update do
     before do
       @relation = Table.new(:users)
+
+      column = @relation[:id].column
+      def column.type_cast(value)
+        value.to_i
+      end
     end
 
     describe '#to_sql' do

@@ -60,6 +60,7 @@ module Arel
       end
 
       def quote(value, column = nil)
+        value = column.type_cast(value) if column
         @connection.quote_value(value)
       end
 
