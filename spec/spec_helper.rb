@@ -31,7 +31,7 @@ module AdapterGuards
       'sqlite3'
     elsif defined?(DataObjects::Postgres)
       'postgresql'
-    else
+    elsif defined?(DataObjects::Mysql)
       'mysql'
     end
     verify_adapter_name(name)
