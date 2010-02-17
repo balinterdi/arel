@@ -63,7 +63,11 @@ module Arel
       end
 
       def adapter_name
-        'DataObjects'
+        @adapter_name ||= case @connection.class.name
+        when 'DataObjects::Sqlite3::Connection'  then 'SQLite3'
+        when 'DataObjects::Postgres::Connection' then 'PostgreSQL'
+        when 'DataObjects::Mysql::Connection'    then 'MySQL'
+        end
       end
 
       module CRUD
