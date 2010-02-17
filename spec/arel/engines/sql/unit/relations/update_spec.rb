@@ -28,17 +28,10 @@ module Arel
           })
         end
 
-        adapter_is :sqlite3 do
+        adapter_is_not :mysql do
           sql.should be_like(%Q{
             UPDATE "users"
             SET "id" = 1, "name" = 'nick'
-          })
-        end
-
-        adapter_is :postgresql do
-          sql.should be_like(%Q{
-            UPDATE "users"
-            SET "id" = 1, "name" = E'nick'
           })
         end
       end
@@ -54,18 +47,10 @@ module Arel
           })
         end
 
-        adapter_is :sqlite3 do
+        adapter_is_not :mysql do
           sql.should be_like(%Q{
             UPDATE "users" SET
             "name" = 'nick'
-            WHERE "id" IN (SELECT "id" FROM "users"  LIMIT 1)
-          })
-        end
-
-        adapter_is :postgresql do
-          sql.should be_like(%Q{
-            UPDATE "users" SET
-            "name" = E'nick'
             WHERE "id" IN (SELECT "id" FROM "users"  LIMIT 1)
           })
         end
@@ -84,17 +69,10 @@ module Arel
             })
           end
 
-          adapter_is :sqlite3 do
+          adapter_is_not :mysql do
             @update.to_sql.should be_like(%Q{
               UPDATE "users"
               SET "name" = 'nick'
-            })
-          end
-
-          adapter_is :postgresql do
-            @update.to_sql.should be_like(%Q{
-              UPDATE "users"
-              SET "name" = E'nick'
             })
           end
         end
@@ -139,18 +117,10 @@ module Arel
             })
           end
 
-          adapter_is :sqlite3 do
+          adapter_is_not :mysql do
             @update.to_sql.should be_like(%Q{
               UPDATE "users"
               SET "name" = 'nick'
-              WHERE "users"."id" = 1
-            })
-          end
-
-          adapter_is :postgresql do
-            @update.to_sql.should be_like(%Q{
-              UPDATE "users"
-              SET "name" = E'nick'
               WHERE "users"."id" = 1
             })
           end
